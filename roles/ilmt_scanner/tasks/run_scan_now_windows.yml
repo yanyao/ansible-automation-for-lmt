@@ -1,0 +1,7 @@
+---
+- name: "Run software scan and pack results on Windows endpoints"
+  win_command: run_sw_and_pack.bat
+  args:
+    chdir: "{{ lmt_scanner_path_windows }}"
+  async: "{{ lmt_scan_now_timeout }}"
+  poll: "{{ 30 if lmt_scan_now_wait | bool else 0 }}"

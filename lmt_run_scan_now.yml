@@ -1,0 +1,44 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - include_role:
+        name: ilmt_scanner
+        tasks_from: print_playbooks_version
+
+- name: "Run ILMT software scan now"
+  hosts: all
+  strategy: free
+  gather_facts: true
+  gather_subset: "!all,!min"
+  tasks:
+    - name: "Verify scanner installation on endpoints"
+      include_role:
+        name: ilmt_scanner
+        tasks_from: verify_scanner_installation
+
+    - name: "Run ILMT software scan on WINDOWS endpoints"
+      become: true
+      become_user: system
+      become_method: runas
+      block:
+        - include_role:
+            name: ilmt_scanner
+            tasks_from: run_scan_now_windows
+      when: ansible_facts['os_family'] == 'Windows'
+
+    - name: "Run ILMT software scan on UNIX/Linux endpoints"
+      become: true
+      block:
+        - include_role:
+            name: ilmt_scanner
+            tasks_from: run_scan_now_unix
+      when: ansible_facts['os_family'] != 'Windows' and ansible_facts['os_family'] != 'OS400'
+
+    - name: "Run ILMT software scan on IBM i endpoints"
+      block:
+        - include_role:
+            name: ilmt_scanner
+            tasks_from: run_scan_now_ibmi
+      when: ansible_facts['os_family'] == 'OS400'

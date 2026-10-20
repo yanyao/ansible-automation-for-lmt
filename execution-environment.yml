@@ -1,0 +1,28 @@
+---
+version: 3
+
+images:
+  base_image:
+    # 目标环境:ansible-core 2.13.10 / Python 3.9 / jinja 3.0.3 / RHEL 9 系。
+    # 使用 CentOS Stream 9(系统 Python 即 3.9),由 ansible-builder 在其上安装指定版本的 ansible-core / ansible-runner。
+    # 注意:ansible-core 2.13 的 ansible-galaxy 不支持 galaxy.ansible.com 的 v3 API 时可能装 collection 失败,
+    # 构建若在 galaxy 步骤报错,请改用 ansible-core>=2.15 或为 collection 指定 source。
+    # 如使用 Red Hat 订阅版,可改为 registry.redhat.io/ansible-automation-platform-25/ee-minimal-rhel9
+    # (此时 package_manager_path 需改为 /usr/bin/microdnf,并删除下面的 ansible_core/ansible_runner/python_interpreter 三项)。
+    name: quay.io/centos/centos:stream9
+
+dependencies:
+  # 基础镜像不含 ansible-core / ansible-runner,需要显式安装
+  ansible_core:
+    package_pip: ansible-core==2.13.10
+  ansible_runner:
+    package_pip: ansible-runner
+  python_interpreter:
+    package_system: python3
+    python_path: /usr/bin/python3
+  galaxy: collections/requirements.yml
+  python: requirements.txt
+  system: bindep.txt
+
+options:
+  package_manager_path: /usr/bin/dnf

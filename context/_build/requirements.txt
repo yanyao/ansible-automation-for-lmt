@@ -1,0 +1,5 @@
+pywinrm>=0.4.3
+# 仅在 Windows 节点使用 Kerberos 认证时需要(同时需要 bindep.txt 中的 krb5/gcc 等系统包)
+pywinrm[kerberos]
+# 仅在 Windows 节点使用 CredSSP 认证时需要
+requests-credssp

@@ -1,0 +1,8 @@
+openssh-clients [platform:rpm]
+sshpass [platform:rpm]
+# 以下用于编译/运行 pywinrm[kerberos](pykerberos 会在最终镜像阶段用 pip 编译安装,
+# 因此这里不能加 compile 标记)。不使用 Kerberos 可连同 requirements.txt 中的对应行一起删除
+krb5-devel [platform:rpm]
+krb5-workstation [platform:rpm]
+gcc [platform:rpm]
+python3-devel [platform:rpm]

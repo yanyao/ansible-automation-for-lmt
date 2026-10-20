@@ -1,0 +1,7 @@
+---
+- name: "Run software scan and pack results on UNIX/Linux endpoints"
+  command: "./run_sw_and_pack_CRON.sh"
+  args:
+    chdir: "{{ lmt_scanner_path_unix }}/bin"
+  async: "{{ lmt_scan_now_timeout }}"
+  poll: "{{ 30 if lmt_scan_now_wait | bool else 0 }}"

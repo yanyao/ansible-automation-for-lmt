@@ -123,6 +123,32 @@ lmt_scanner_setup_timeout: 300
 ##   terminated reported as failed if not finish within defined period.
 ################################################################################
 
+lmt_scan_now_wait: true
+################################################################################
+## Parameter        | lmt_scan_now_wait
+##==============================================================================
+## Default Value    | true
+## Possible Values  | true, false
+##==============================================================================
+## Description:
+##   Used by lmt_run_scan_now playbook. If set to true, the playbook waits
+##   until the software scan and packing of results finish. If set to false,
+##   the scan is started in the background and the playbook ends immediately.
+################################################################################
+
+lmt_scan_now_timeout: 7200
+################################################################################
+## Parameter        | lmt_scan_now_timeout
+##==============================================================================
+## Default Value    | 7200
+## Possible Values  | Number
+##==============================================================================
+## Description:
+##   Used by lmt_run_scan_now playbook. Number of seconds after which the
+##   software scan is terminated and reported as failed. A software scan on
+##   IBM i can take about 30 minutes or longer.
+################################################################################
+
 
 ################################################################################
 ## Disconnected scanner setup specific settings below                         ##

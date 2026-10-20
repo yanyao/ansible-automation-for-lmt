@@ -1,0 +1,22 @@
+---
+# IBM i scanner does not schedule software scans (only LMT_HW capacity scans),
+# so this is the only way to refresh software inventory on IBM i endpoints
+- name: "Run software scan and pack results on IBM i endpoints"
+  command: "qsh run_sw_and_pack.sh"
+  args:
+    chdir: "{{ lmt_scanner_path_ibmi }}"
+  async: "{{ lmt_scan_now_timeout }}"
+  poll: "{{ 30 if lmt_scan_now_wait | bool else 0 }}"
+
+- name: "Get the list of packages with scan results on IBM i endpoints"
+  find:
+    paths: "{{ lmt_scanner_path_ibmi }}"
+    use_regex: true
+    patterns: ['^\d{12}-.+\.zip$']
+  register: scan_now_packages_ibmi
+  when: lmt_scan_now_wait | bool
+
+- name: "Print packages with scan results on IBM i endpoints"
+  debug:
+    msg: "{{ scan_now_packages_ibmi.files | map(attribute='path') | list }}"
+  when: lmt_scan_now_wait | bool
