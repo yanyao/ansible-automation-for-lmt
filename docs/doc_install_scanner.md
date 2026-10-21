@@ -24,6 +24,8 @@ To install the disconnected scanner on your managed nodes, run the `lmt_install_
 
   `ansible-playbook lmt_install_or_upgrade_scanner.yml -i lmt_inventory.yml -l lmt_server,localhost,unix1,windows` 
 
+  For more patterns and caveats (Chinese): [Install or upgrade the scanner on selected nodes only](upgrade_selected_nodes_zh.md).
+
 <br>
 
  ## What to do next 
